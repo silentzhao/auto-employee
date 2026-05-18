@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: employee-manager
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  profiles:
+    default: test
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto
+
+app:
+  channel:
+    webhook-secret: test-secret
+    default-channel: demo-webhook
+  knowledge:
+    max-file-size-bytes: 10485760
+    allowed-types:
+      - text/plain
+      - text/markdown
+      - application/pdf
+      - application/msword
+      - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+  storage:
+    base-path: ./var/object-storage
+  model:
+    provider: local
+    model-name: deterministic-mvp
+    timeout-millis: 3000
