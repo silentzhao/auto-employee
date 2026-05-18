@@ -1,10 +1,10 @@
 package com.aidigital.employee;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.aidigital.employee.channel.ChatMessageMapper;
+import com.aidigital.employee.channel.mapper.ChatMessageMapper;
 import com.aidigital.employee.common.util.Digests;
-import com.aidigital.employee.customer.CustomerMemoryMapper;
-import com.aidigital.employee.knowledge.KnowledgeChunkMapper;
+import com.aidigital.employee.customer.mapper.CustomerMemoryMapper;
+import com.aidigital.employee.knowledge.mapper.KnowledgeChunkMapper;
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
