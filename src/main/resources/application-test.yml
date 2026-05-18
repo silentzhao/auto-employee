@@ -1,9 +1,13 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:employee-manager;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:postgresql://${DB_HOST:192.168.113.129}:${DB_PORT:5432}/${DB_NAME:employee_manager}
+    username: ${DB_USERNAME:app}
+    password: ${DB_PASSWORD:app123456}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      pool-name: employee-manager-pool
+      connection-timeout: 3000
 
 logging:
   level:
