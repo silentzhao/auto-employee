@@ -15,7 +15,7 @@ spring:
     default: local
 
 server:
-  port: 8080
+  port: 58080
 
 management:
   endpoints:

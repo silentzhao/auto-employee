@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:employee_manager}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:postgres}
+    username: ${DB_USERNAME:zhaojiaqi}
+    password: ${DB_PASSWORD:zjq123456}
     hikari:
       maximum-pool-size: 10
       minimum-idle: 2
