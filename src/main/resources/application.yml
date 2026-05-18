@@ -11,8 +11,9 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+    baseline-on-migrate: true
   profiles:
-    default: local
+    default: test
 
 server:
   port: 58080

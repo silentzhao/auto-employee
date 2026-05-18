@@ -1,4 +1,6 @@
 spring:
+  flyway:
+    baseline-on-migrate: true
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:employee_manager}
     username: ${DB_USERNAME:zhaojiaqi}
