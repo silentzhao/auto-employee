@@ -1,0 +1,43 @@
+services:
+  employee-manager:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: employee-manager:latest
+    container_name: employee-manager
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-58080}:58080"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-employee_manager}
+      DB_USERNAME: ${DB_USERNAME:-app}
+      DB_PASSWORD: ${DB_PASSWORD:-change-me}
+      JAVA_OPTS: "${JAVA_OPTS:--Xms256m -Xmx512m}"
+      TZ: ${TZ:-Asia/Shanghai}
+    volumes:
+      - ./var:/app/var
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16
+    container_name: employee-manager-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-employee_manager}
+      POSTGRES_USER: ${DB_USERNAME:-app}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-change-me}
+      TZ: ${TZ:-Asia/Shanghai}
+    ports:
+      - "${DB_EXPOSE_PORT:-5432}:5432"
+    volumes:
+      - ./var/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-app} -d ${DB_NAME:-employee_manager}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
