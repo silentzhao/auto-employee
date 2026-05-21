@@ -15,18 +15,18 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@TableName("conversation_sessions")
-public class ConversationSession {
+@TableName("follow_up_tasks")
+public class FollowUpTask {
 
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long customerId;
-    private String channelCode;
+    private Long sessionId;
+    private String title;
+    private String priority;
     private String status;
-    private String summary;
-    private String takeoverReason;
-    private Instant takeoverAt;
+    private String ownerId;
+    private Instant dueAt;
     private Instant createdAt;
     private Instant updatedAt;
-    private Instant lastActiveAt;
 }

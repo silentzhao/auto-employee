@@ -102,6 +102,10 @@ public class KnowledgeService {
                 .eq(KnowledgeChunk::getStatus, "READY"));
         Map<Long, KnowledgeDocument> documents = loadDocuments(chunks);
         return chunks.stream()
+                .filter(chunk -> {
+                    KnowledgeDocument document = documents.get(chunk.getDocumentId());
+                    return document != null && ("INDEXED".equals(document.getStatus()) || "ENABLED".equals(document.getStatus()));
+                })
                 .map(chunk -> new KnowledgeHit(
                         chunk.getDocumentId(),
                         documents.getOrDefault(chunk.getDocumentId(), new KnowledgeDocument()).getFileName(),
@@ -110,6 +114,33 @@ public class KnowledgeService {
                 .sorted(Comparator.comparingDouble(KnowledgeHit::score).reversed())
                 .limit(topK)
                 .toList();
+    }
+
+    public List<KnowledgeDocument> listDocuments(String tenantId, String status) {
+        return knowledgeDocumentMapper.selectList(new LambdaQueryWrapper<KnowledgeDocument>()
+                .eq(tenantId != null && !tenantId.isBlank(), KnowledgeDocument::getTenantId, tenantId)
+                .eq(status != null && !status.isBlank(), KnowledgeDocument::getStatus, status)
+                .orderByDesc(KnowledgeDocument::getUpdatedAt));
+    }
+
+    /**
+     * Updates document visibility for paid tenant delivery without deleting traceable source data.
+     */
+    @Transactional
+    public KnowledgeDocument updateStatus(Long documentId, String status) {
+        KnowledgeDocument document = knowledgeDocumentMapper.selectById(documentId);
+        if (document == null) {
+            throw new BusinessException(HttpStatus.NOT_FOUND, "知识库文档不存在");
+        }
+        document.setStatus(status).setUpdatedAt(Instant.now());
+        knowledgeDocumentMapper.updateById(document);
+        List<KnowledgeChunk> chunks = knowledgeChunkMapper.selectList(new LambdaQueryWrapper<KnowledgeChunk>()
+                .eq(KnowledgeChunk::getDocumentId, documentId));
+        for (KnowledgeChunk chunk : chunks) {
+            chunk.setStatus("DISABLED".equals(status) || "DELETED".equals(status) ? "DISABLED" : "READY");
+            knowledgeChunkMapper.updateById(chunk);
+        }
+        return document;
     }
 
     /**

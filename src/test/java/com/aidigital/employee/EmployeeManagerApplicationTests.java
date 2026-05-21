@@ -5,6 +5,8 @@ import com.aidigital.employee.channel.mapper.ChatMessageMapper;
 import com.aidigital.employee.common.util.Digests;
 import com.aidigital.employee.customer.mapper.CustomerMemoryMapper;
 import com.aidigital.employee.knowledge.mapper.KnowledgeChunkMapper;
+import com.aidigital.employee.ops.mapper.AsyncTaskMapper;
+import com.aidigital.employee.ops.service.AsyncTaskWorker;
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,12 @@ class EmployeeManagerApplicationTests {
 
     @Autowired
     private KnowledgeChunkMapper knowledgeChunkMapper;
+
+    @Autowired
+    private AsyncTaskMapper asyncTaskMapper;
+
+    @Autowired
+    private AsyncTaskWorker asyncTaskWorker;
 
     @Test
     void contextLoads() {
@@ -80,6 +88,8 @@ class EmployeeManagerApplicationTests {
                 .andExpect(status().isUnauthorized());
 
         assertThat(chatMessageMapper.selectCount(null)).isGreaterThanOrEqualTo(2);
+        assertThat(asyncTaskMapper.selectCount(null)).isGreaterThanOrEqualTo(3);
+        asyncTaskWorker.pollReadyTasks();
         assertThat(customerMemoryMapper.selectCount(null)).isEqualTo(1);
     }
 

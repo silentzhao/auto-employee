@@ -11,6 +11,8 @@ public class AppProperties {
     private final Knowledge knowledge = new Knowledge();
     private final Storage storage = new Storage();
     private final Model model = new Model();
+    private final Async async = new Async();
+    private final Worker worker = new Worker();
 
     public Channel getChannel() {
         return channel;
@@ -26,6 +28,14 @@ public class AppProperties {
 
     public Model getModel() {
         return model;
+    }
+
+    public Async getAsync() {
+        return async;
+    }
+
+    public Worker getWorker() {
+        return worker;
     }
 
     public static class Channel {
@@ -109,6 +119,66 @@ public class AppProperties {
 
         public void setTimeoutMillis(int timeoutMillis) {
             this.timeoutMillis = timeoutMillis;
+        }
+    }
+
+    public static class Async {
+        private boolean rabbitEnabled;
+        private String exchange;
+        private String routingKey;
+        private int maxAttempts = 3;
+        private int pollSize = 10;
+
+        public boolean isRabbitEnabled() {
+            return rabbitEnabled;
+        }
+
+        public void setRabbitEnabled(boolean rabbitEnabled) {
+            this.rabbitEnabled = rabbitEnabled;
+        }
+
+        public String getExchange() {
+            return exchange;
+        }
+
+        public void setExchange(String exchange) {
+            this.exchange = exchange;
+        }
+
+        public String getRoutingKey() {
+            return routingKey;
+        }
+
+        public void setRoutingKey(String routingKey) {
+            this.routingKey = routingKey;
+        }
+
+        public int getMaxAttempts() {
+            return maxAttempts;
+        }
+
+        public void setMaxAttempts(int maxAttempts) {
+            this.maxAttempts = maxAttempts;
+        }
+
+        public int getPollSize() {
+            return pollSize;
+        }
+
+        public void setPollSize(int pollSize) {
+            this.pollSize = pollSize;
+        }
+    }
+
+    public static class Worker {
+        private boolean enabled = true;
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
         }
     }
 }

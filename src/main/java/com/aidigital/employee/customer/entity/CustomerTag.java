@@ -1,8 +1,9 @@
-package com.aidigital.employee.agent.entity;
+package com.aidigital.employee.customer.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.math.BigDecimal;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,18 +16,15 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@TableName("conversation_sessions")
-public class ConversationSession {
+@TableName("customer_tags")
+public class CustomerTag {
 
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long customerId;
-    private String channelCode;
-    private String status;
-    private String summary;
-    private String takeoverReason;
-    private Instant takeoverAt;
+    private String tagCode;
+    private String tagName;
+    private String source;
+    private BigDecimal confidence;
     private Instant createdAt;
-    private Instant updatedAt;
-    private Instant lastActiveAt;
 }

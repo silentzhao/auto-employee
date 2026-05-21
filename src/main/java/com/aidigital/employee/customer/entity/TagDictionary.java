@@ -1,4 +1,4 @@
-package com.aidigital.employee.agent.entity;
+package com.aidigital.employee.customer.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -15,18 +15,13 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@TableName("conversation_sessions")
-public class ConversationSession {
+@TableName("tag_dictionaries")
+public class TagDictionary {
 
     @TableId(type = IdType.AUTO)
     private Long id;
-    private Long customerId;
-    private String channelCode;
-    private String status;
-    private String summary;
-    private String takeoverReason;
-    private Instant takeoverAt;
+    private String tagCode;
+    private String tagName;
+    private String ruleKeywords;
     private Instant createdAt;
-    private Instant updatedAt;
-    private Instant lastActiveAt;
 }

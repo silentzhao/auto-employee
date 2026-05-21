@@ -22,7 +22,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,metrics
   endpoint:
     health:
       probes:
@@ -53,3 +53,11 @@ app:
     provider: local
     model-name: deterministic-mvp
     timeout-millis: 3000
+  async:
+    rabbit-enabled: false
+    exchange: employee.tasks
+    routing-key: employee.task.created
+    max-attempts: 3
+    poll-size: 10
+  worker:
+    enabled: true
