@@ -311,5 +311,3 @@ public class AdminController {
     public record KnowledgeStatusRequest(String status) {
     }
 }
-   RabbitMQ AMQP  端口号：35672
-   RabbitMQ 管理台 端口号：35672
